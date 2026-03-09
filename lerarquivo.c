@@ -18,6 +18,6 @@ void lerarquivo () //obs: se o tamanho é diferente é só mudar no inteiro tam
         fclose(file);
         printf("Arquivo Carregado! %d numeros lidos.\n", i); //avisa que está carregado e quantos numeros
 
-        //Eu recomendo colocar direto ma main
+        //Eu recomendo colocar direto na main
     }
 }
