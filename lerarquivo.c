@@ -1,5 +1,5 @@
 //Precisa do <stdlib.h>
-void lerarquivo (int *V) //obs: se o tamanho é diferente é só mudar no inteiro tam
+void lerarquivo () //obs: se o tamanho é diferente é só mudar no inteiro tam
 {
     int tam = 100;
     int n = 0;
