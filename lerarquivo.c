@@ -15,6 +15,6 @@ void lerarquivo (int *V) //obs: se o tamanho é diferente é só mudar no inteir
         }
         n = i;
         fclose(file);
-        printf("Arquivo Carregado! %d numeros lidos.\n", i); //avisa que está carregado e o tamanho do vetor
+        printf("Arquivo Carregado! %d numeros lidos.\n", i); //avisa que está carregado e quantos numeros
     }
 }
