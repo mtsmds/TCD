@@ -2,7 +2,6 @@
 void lerarquivo () //obs: se o tamanho é diferente é só mudar no inteiro tam
 {
     int tam = 100;
-    int n = 0;
     FILE *file = fopen("dados.txt", "r"); //função para ler o arquivo "r" para ler ele
     if (file == NULL) //verifica se está vazio
     {
