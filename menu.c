@@ -8,7 +8,7 @@ int main()
     do
     {
         
-    printf ("\n1. Carregar arquivo de dados\n2. Buscar elemento (linear)\n3. Ordenar dados (Merge)\n4. Gerar relatorio (Log)\n5. Sair\n");
+    printf ("\n1. Carregar arquivo de dados\n2. Buscar elemento\n3. Ordenar dados\n4. Gerar relatorio (Log)\n5. Sair\n");
     scanf ("%d",&Numero);
     if (Numero == 1)
     {
