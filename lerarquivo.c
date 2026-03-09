@@ -7,7 +7,7 @@ void lerarquivo ()
             printf("Arquivo Nulo\n");
         } else {
             int i = 0;
-            while (fscanf(file, "%d", &V[i]) i < n) //Vai colocar no vetor cada numero
+            while (fscanf(file, "%d", &V[i]) != EOF) //Vai colocar no vetor cada numero EOF para ler os dados até o final do arquivo
             {
                 i++; //incrementa
             }
