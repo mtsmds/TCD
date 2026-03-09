@@ -1,13 +1,15 @@
 //Precisa do <stdlib.h>
 void lerarquivo (int *V) //obs: se o tamanho é diferente é só mudar no inteiro tam
 {
-    tam = 100;
+    int tam = 100;
     int n = 0;
     FILE *file = fopen("dados.txt", "r"); //função para ler o arquivo "r" para ler ele
     if (file == NULL) //verifica se está vazio
     {
         printf("Arquivo Nulo\n");
-    } else {
+    } 
+    else 
+    {
         int i = 0;
         while (fscanf(file, "%d", &V[i]) != EOF && i < tam) //Vai colocar no vetor cada numero EOF para ler os dados até o final do arquivo
         {
