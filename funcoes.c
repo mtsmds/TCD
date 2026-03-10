@@ -195,3 +195,32 @@ void MergeSort (int *V, int inicio, int fim)
     }
 }
 
+void InsertionSort (int *V, int N)
+{
+    int aux, j, i;
+    for (i = 0; i < N - 1; i++)
+    {
+        if (V[i] > V[i+1]) //se o vetor for maior que o proximo vetor
+        {
+            aux = V[i+1]; // aux vai armazenar esse proximo vetor 
+            V[i+1] = V[i]; //o proximo agora é o anterior (o maior entre os dois)
+            V[i] = aux; //agora V tem o valor que aux armazenou
+            j = i - 1; //vai armazenar as vezes do laço para comparar com os outros 
+            while (j>=0)
+            {
+                if (aux < V[j]) //vai comparar o aux (o numero que esta trocando) com os outros de traz
+                {
+                    V[j+1] = V[j];
+                    V [j] = aux;
+                }
+                else
+                {
+                    break; //caso o numero nao for o maior ele para
+                }
+                j = j - 1; // vai ser decrementada para fazer de novo 
+            }
+        }
+    }
+}
+
+
