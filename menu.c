@@ -28,8 +28,6 @@ int main()
             fclose(file);
             printf("Arquivo Carregado! %d numeros lidos.\n", i); //avisa que está carregado e quantos numeros
         }
-
-        printf ("%d", n);
         acaofeita = 1;
     }
     if (acaofeita == 1 && Numero == 2)
