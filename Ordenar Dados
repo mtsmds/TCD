@@ -1,0 +1,163 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+/* ================= INSERTION SORT ================= */
+// Ordena o vetor usando Insertion Sort
+// O vtFunciona bem para vetores pequenos ou quase ordenados
+void insertionSort(int v[], int n) {
+    int i, j, chave;
+    for(i = 1; i < n; i++) {
+        chave = v[i]; // Elemento a ser inserido na posição correta
+        j = i - 1;
+        while(j >= 0 && v[j] > chave) {
+            v[j + 1] = v[j];
+            j--;
+        }
+        v[j + 1] = chave;
+    }
+}
+
+/* ================= MERGE SORT ================= */
+void merge(int vetor[], int inicio, int meio, int fim){
+    int i, j, k;
+    int n1 = meio - inicio + 1;
+    int n2 = fim - meio;
+    int L[100], R[100];
+
+    for(i = 0; i < n1; i++)
+        L[i] = vetor[inicio + i];
+    for(j = 0; j < n2; j++)
+        R[j] = vetor[meio + 1 + j];
+
+    i = 0; j = 0; k = inicio;
+    while(i < n1 && j < n2){
+        if(L[i] <= R[j]){
+            vetor[k++] = L[i++];
+        } else {
+            vetor[k++] = R[j++];
+        }
+    }
+    while(i < n1) vetor[k++] = L[i++];
+    while(j < n2) vetor[k++] = R[j++];
+}
+
+void mergeSort(int vetor[], int inicio, int fim){
+    if(inicio < fim){
+        int meio = (inicio + fim) / 2;
+        mergeSort(vetor, inicio, meio);
+        mergeSort(vetor, meio + 1, fim);
+        merge(vetor, inicio, meio, fim);
+    }
+}
+
+/* ================= QUICK SORT ================= */
+void troca(int *x, int *y){
+    int aux = *x; *x = *y; *y = aux;
+}
+
+int dividir(int v[], int inicio, int fim){
+    int pivo = v[fim];
+    int i = inicio - 1;
+    for(int j = inicio; j < fim; j++){
+        if(v[j] <= pivo){
+            i++;
+            troca(&v[i], &v[j]);
+        }
+    }
+    troca(&v[i + 1], &v[fim]);
+    return i + 1;
+}
+
+void quicksort(int v[], int inicio, int fim){
+    if(inicio < fim){
+        int pivo = dividir(v, inicio, fim);
+        quicksort(v, inicio, pivo - 1);
+        quicksort(v, pivo + 1, fim);
+    }
+}
+
+/* ================= RADIX SORT ================= */
+// Ordena usando Radix Sort, que é eficiente para números inteiros grandes
+// Justificativa: escolha deste algoritmo para ilustrar a opção de um algoritmo não comparativo,
+// que pode ser mais rápido que O(n log n) para conjuntos específicos de dados inteiros.
+void radixsort(int vetor[], int n){
+    int i, j, k, exp = 1, m;
+    int L[100], R[100];
+    m = vetor[0];
+    for(i = 1; i < n; i++)
+        if(vetor[i] > m) m = vetor[i];
+
+    while(m / exp > 0){
+        j = 0; k = 0;
+        for(i = 0; i < n; i++){
+            if((vetor[i]/exp)%10 < 5) L[j++] = vetor[i];
+            else R[k++] = vetor[i];
+        }
+        for(i = 0; i < j; i++) vetor[i] = L[i];
+        for(i = 0; i < k; i++) vetor[j+i] = R[i];
+        exp *= 10;
+    }
+}
+
+/* ================= FUNÇÕES AUXILIARES ================= */
+// Imprime vetor
+void imprimir(int v[], int n){
+    for(int i = 0; i < n; i++) printf("%d ", v[i]);
+    printf("\n");
+}
+
+// Salva vetor em arquivo
+void salvarVetor(int v[], int n, const char* filename){
+    FILE *f = fopen(filename, "w");
+    if(f == NULL){
+        printf("Erro ao criar o arquivo.\n");
+        return;
+    }
+    for(int i = 0; i < n; i++)
+        fprintf(f, "%d ", v[i]);
+    fprintf(f, "\n");
+    fclose(f);
+    printf("Vetor salvo em %s\n", filename);
+}
+
+/* ================= MAIN ================= */
+int main(){
+    int vetor[] = {35, 3, 9, 30, 28, 21, 43, 8, 1, 2};
+    int n = sizeof(vetor)/sizeof(vetor[0]);
+    int opcao;
+    clock_t inicio, fim;
+    double tempo;
+
+    printf("Escolha o algoritmo de ordenacao:\n");
+    printf("1 - Insertion Sort\n");
+    printf("2 - Merge Sort\n");
+    printf("3 - Quick Sort\n");
+    printf("4 - Radix Sort (ilustra escolha de algoritmo extra)\n");
+    printf("Opcao: ");
+    scanf("%d", &opcao);
+
+    inicio = clock(); // começa a contagem de tempo
+    switch(opcao){
+        case 1: insertionSort(vetor, n); break;
+        case 2: mergeSort(vetor, 0, n-1); break;
+        case 3: quicksort(vetor, 0, n-1); break;
+        case 4: radixsort(vetor, n); break;
+        default: printf("Opcao invalida\n"); return 0;
+    }
+    fim = clock(); // termina contagem de tempo
+
+    tempo = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
+
+    printf("Vetor ordenado:\n");
+    imprimir(vetor, n);
+
+    printf("Tempo de execucao: %.6f segundos\n", tempo);
+
+    char filename[50];
+    printf("Digite o nome do arquivo para salvar o vetor ordenado (ex: vetor.txt): ");
+    scanf("%s", filename);
+    salvarVetor(vetor, n, filename);
+
+    return 0;
+}
