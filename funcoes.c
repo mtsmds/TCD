@@ -136,3 +136,62 @@ int* selectionsort(int *vet, int n)
    return p;   
 }
 
+
+void merge (int *V, int inicio, int meio, int fim)
+{
+    int p1, p2, *temp, tamanho;
+
+    p1 = inicio;
+    p2 = meio + 1; 
+    tamanho = fim - inicio + 1;
+    temp = (int *) malloc(tamanho*sizeof(int));
+
+    if (temp != NULL)
+    {
+        //Vai combinar o odernado
+        for (int i = 0; i < tamanho; i++)
+        {
+            if (p1 <= meio && p2 <= fim) //A condição é: Se ainda o fim está zerado vai combinar
+            {
+                if (V[p1] < V [p2])
+                {
+                    temp[i] = V[p1++];
+                }
+                else
+                {
+                temp[i] = V[p2++];
+                }
+            }
+            else if (p1 <= meio)
+            {
+                temp[i] = V[p1++];
+            }
+            else
+            {
+                temp[i] = V[p2++];
+            }
+        }
+        //Vai copiar para o vetor original
+        for (int k = 0; k < tamanho; k++) 
+        {
+            V[inicio + k] = temp[k];
+        }
+    }
+
+    free(temp); //Libera o vetor temporario
+}
+
+void MergeSort (int *V, int inicio, int fim)
+{
+    int meio; 
+
+    if (inicio < fim)
+    {
+        meio = floor(inicio + fim)/2;
+        //chama a própia função
+        MergeSort (V, inicio, meio); //primeira metade
+        MergeSort (V, meio + 1, fim); //segunda metade
+        merge (V, inicio, meio, fim); //Chama a função merge que vai combinar 
+    }
+}
+
