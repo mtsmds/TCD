@@ -6,9 +6,18 @@
 
 int main()
 {
+    LARGE_INTEGER frequency;//
+    FILE *log = NULL;//
+    LARGE_INTEGER inicio,fim;// funcionamento do log
+    double elapsedtime;//
+    double soma; // soma dos tempos de exe
+    double media; //funcionamento do log
+    int l; // 
+
+
     int tam = 100;
     int *V = NULL; 
-    FILE *file = NULL;
+    FILE *file = NULL; //arquivo de dados
     int i = 0;
     int Numero, Numerosub, n, acaofeita = 0, algexe = 0; //para o funconamento do menu
     int buscado, buscabinres; // para funcionamento da busca binaria
@@ -17,7 +26,7 @@ int main()
     do {
         printf("\n1. Carregar arquivo de dados\n2. Buscar elemento\n3. Ordenar dados\n4. Gerar relatorio (Log)\n5. Sair\n");
         scanf(" %d", &Numero);
-        while(getchar() != '\n');
+      
 
         switch(Numero)
         {
@@ -50,20 +59,79 @@ int main()
                 } else {
                     printf("\n01.Linear \n02.Binária (Apenas se estiver ordenado)\n");
                     scanf(" %d", &Numerosub);
-                    while(getchar() != '\n'); //evitar erro do menu em loop
+               
                     switch(Numerosub)
                     {
                         case 1:
+                        {
                             //busca sequencial aqui
+                            //
+                            //
+
+                            printf("qual o numero a ser buscado?  ");
+                            scanf(" %d", &buscado);
+
+                            soma = 0.0; // zera a soma antes de repetir
+                            QueryPerformanceFrequency(&frequency); // pega a frequencia do contador
+                            for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
+                            {
+                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                
+                                //funcao de buscalinear aqui
+
+
+                                QueryPerformanceCounter(&fim); // para contagem
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; 
+                                soma += elapsedtime; // acumula o tempo 
+                            }
+                            media = soma / 100.0; //  media das 100 execuções
+                           
+                            
+                            if(buscabinres != -1)
+                            {
+                                printf("elemento %d encontrado na posicao: %d", buscado, buscabinres);
+                            }
+                            else
+                            {
+                                printf("elemento nao encontrado");
+                            }
+                            Numerosub = 0; //resolver o erro do menu em loop;
+                            log = fopen("log.txt", "a"); // a n apaga o q ja tem
+                            if (log == NULL) {
+                            printf("Erro\n");
+                        }else
+                        {
+                            fprintf(log, "tempo de execução na busca sequencial: %.10lf ms\n", media); // salva a media no log
+                             fclose(log);
+                        }
+
+                            //
+                            //
+                            //
                             Numero = 0; //resolver o erro do menu em loop;
                             Numerosub = 0;
 
                             break;
+                        }
                         case 2:
+                        {
                             printf("qual o numero a ser buscado?  ");
                             scanf(" %d", &buscado);
-                            while(getchar() != '\n');  //evitar erro do menu em loop
-                            buscabinres = buscabin(buscado, V, n);
+
+                            soma = 0.0; // zera a soma antes de repetir
+                            QueryPerformanceFrequency(&frequency); // pega a frequencia do contador
+                            for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
+                            {
+                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                  buscabinres = buscabin(buscado, V, n);   
+                                QueryPerformanceCounter(&fim); // para contagem
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; 
+                                soma += elapsedtime; // acumula o tempo de cada execução
+                            }
+                            media = soma / 100.0; // media das 100 execuções
+                        
+                           
+                            
                             if(buscabinres != -1)
                             {
                                 printf("elemento %d encontrado na posicao: %d", buscado, buscabinres);
@@ -73,6 +141,17 @@ int main()
                                 printf("elemento nao encontrado ou vetor nao ordenado");
                             }
                             Numerosub = 0; //resolver o erro do menu em loop;
+                            log = fopen("log.txt", "a"); // a n apaga o q ja tem
+                            if (log == NULL) {
+                            printf("Erro ao abrir log\n");
+                            }
+                            else
+                            {
+                            fprintf(log, "tempo de execução na busca binária: %.10lf ms\n", media); // salva a media no log
+                             fclose(log);
+                        }
+                           
+                        }
 
                             break;
                     }
@@ -91,10 +170,32 @@ int main()
                         case 1:
                             //codigo insert
                              k = 0; //evitar erro se ordenar 2 vezes
-                            InsertionSort(V,n);
-                            printf("aperte 1 para ver o vetor ordenado\n");
+
+                            soma = 0.0; // zera a soma antes de repetir
+                            QueryPerformanceFrequency(&frequency); // pega a frequencia do contador
+                            for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
+                            {
+                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                InsertionSort(V,n);
+                                QueryPerformanceCounter(&fim); // para contagem
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; 
+                                soma += elapsedtime; // acumula o tempo de cada execução
+                            }
+                            media = soma / 100.0; // media das 100 execuções
+                           
+                            Numerosub = 0; //resolver o erro do menu em loop;
+                            log = fopen("log.txt", "a"); // a n apaga o q ja tem
+                            if (log == NULL) {
+                            printf("Erro ao abrir log\n");
+                        }else
+                        {
+                            fprintf(log, "tempo de execução insertionsort: %.10lf ms\n", media); // salva a media no log
+                             fclose(log);
+                        }
+                           
+                            printf("aperte 1 para ver o vetor ordenado, 2 para voltar\n");
                             scanf("%d", &k);
-                            while(getchar() != '\n');  //evitar erro do menu em loop
+                         
                             if(k == 1)
                             {
                                  for(k = 0; k<n; k++)
@@ -118,10 +219,31 @@ int main()
                         case 2:
                             // codigo bubble
                              k = 0; //evitar erro se ordenar 2 vezes
-                           ord = bubblesort(V, n);
+
+                            soma = 0.0; // zera a soma antes de repetir
+                            QueryPerformanceFrequency(&frequency); // pega a frequencia do contador
+                            for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
+                            {
+                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                ord = bubblesort(V, n);
+                                QueryPerformanceCounter(&fim); // para contagem
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; // calcula tempo da iteracao
+                                soma += elapsedtime; // acumula o tempo de cada execução
+                            }
+                            media = soma / 100.0; // calcula a media das 100 execuções
+                           
+                            Numerosub = 0; //resolver o erro do menu em loop;
+                            log = fopen("log.txt", "a"); // a n apaga o q ja tem
+                            if (log == NULL) {
+                            printf("Erro ao abrir log\n");
+                        }else
+                        {
+                            fprintf(log, "tempo de execução bubblesort: %.10lf ms\n", media); // salva a media no log
+                             fclose(log);
+                        }
+                           
                            printf("aperte 1 para ver o vetor ordenado\n");
                            scanf("%d", &k);
-                            while(getchar() != '\n');  //evitar erro do menu em loop
                             if(k == 1)
                             {
                                  for(k = 0; k<n; k++)
@@ -144,8 +266,31 @@ int main()
                             //codigo selection
 
                             k = 0; // evitar erro se ordenar 2 vzs
-                           ord = selectionsort(V, n);
+
+                            soma = 0.0; // zera a soma antes de repetir
+                            QueryPerformanceFrequency(&frequency); 
+                            for(l = 0; l < 100; l++) 
+                            {
+                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                ord = selectionsort(V, n);
+                                QueryPerformanceCounter(&fim); // para contagem
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart;
+                                soma += elapsedtime; // acumula o tempo de cada execução
+                            }
+                            media = soma / 100.0; //media das 100 execuções
+                           
+                            Numerosub = 0; //resolver o erro do menu em loop;
+                            log = fopen("log.txt", "a"); // a nao apaga o q ja tem
+                            if (log == NULL) {
+                            printf("Erro ao abrir log\n");
+                        }else
+                        {
+                            fprintf(log, "tempo de execução selectionsort: %.10lf ms\n", media); // salva a media no log
+                             fclose(log);
+                        }
+                           
                            printf("aperte 1 para ver o vetor ordenado\n");
+                          
                            scanf("%d", &k);
                             while(getchar() != '\n');
                             if(k == 1)
@@ -168,8 +313,33 @@ int main()
                         case 4:
                             //codigomerge
                              k = 0; //evitar erro se ordenar 2 vezes
-                            MergeSort (V, 0, n - 1);
+
+                            soma = 0.0; // zera a soma antes de repetir
+                            QueryPerformanceFrequency(&frequency); // pega a frequencia do contador
+                            for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
+                            {
+                                QueryPerformanceCounter(&inicio); // inicia contagem
+
+                                MergeSort(V, 0, n - 1);
+
+                                QueryPerformanceCounter(&fim); // para contagem
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; 
+                                soma += elapsedtime; // acumula o tempo de cada execução
+                            }
+                            media = soma / 100.0; //  media das 100 execuções
+                           
+                            Numerosub = 0; //resolver o erro do menu em loop;
+                            log = fopen("log.txt", "a"); // a n apaga o q ja tem
+                            if (log == NULL) {
+                            printf("Erro ao abrir log\n");
+                        }else
+                        {
+                            fprintf(log, "tempo de execução mergesort : %.10lf ms\n", media); 
+                             fclose(log);
+                        }
+                           
                            printf("aperte 1 para ver o vetor ordenado\n");
+                          // mostra a media na tela
                            scanf("%d", &k);
                             while(getchar() != '\n');  //evitar erro do menu em loop
                             if(k == 1)
@@ -193,11 +363,64 @@ int main()
                             break;
                         case 5:
                             //codigo quick
+
+                            soma = 0.0; // zera a soma antes de repetir
+                            QueryPerformanceFrequency(&frequency); 
+                            for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
+                            {
+                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                
+                                 //funcao ordenação aqui
+                                 // 
+                                 //
+                                 //
+                                QueryPerformanceCounter(&fim); // para contagem
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart;
+                                soma += elapsedtime; // acumula o tempo de cada execução
+                            }
+                            media = soma / 100.0; // media das 100 execuções
+                           
+                            Numerosub = 0; //resolver o erro do menu em loop;
+                            log = fopen("log.txt", "a"); // a n apaga o q ja tem
+                            if (log == NULL) {
+                            printf("Erro ao abrir log\n");
+                        }else
+                        {
+                            fprintf(log, "tempo de execução quicksort: %.10lf ms\n", media); // salva a media no log
+                             fclose(log);
+                        }
+
                             Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
                             break;
                         case 6: 
                             //codigo extra
+
+                            soma = 0.0; // zera a soma antes de repetir
+                            QueryPerformanceFrequency(&frequency); 
+                            for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
+                            {
+                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                
+                                 //funcao ordenação aqui
+                                 //
+                                 //
+                                QueryPerformanceCounter(&fim); // para contagem
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; 
+                                soma += elapsedtime; // soma os tempos
+                            }
+                            media = soma / 100.0; //  media das 100 execuções
+                           
+                            Numerosub = 0; //resolver o erro do menu em loop;
+                            log = fopen("log.txt", "a"); // a n apaga o q ja tem
+                            if (log == NULL) {
+                            printf("Erro ao abrir log\n");
+                        }else
+                        {
+                            fprintf(log, "tempo de execução do codigo extra: %.10lf ms\n", media); // salva a media no log
+                             fclose(log);
+                        }
+
                             Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
                             break;
@@ -218,6 +441,7 @@ int main()
                 break;
             
                 case 5:
+                 free(V); 
                 return 0;
             default: //caso digite um numero q n tem no menu
                 printf("numero invalido");
@@ -230,4 +454,3 @@ int main()
     } while (Numero != 5);
      free(V); 
 }
-
