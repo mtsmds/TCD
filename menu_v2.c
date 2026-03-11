@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "funcoes.h"
-
+#include <windows.h>
 
 
 int main()
@@ -90,6 +90,27 @@ int main()
                     {
                         case 1:
                             //codigo insert
+                             k = 0; //evitar erro se ordenar 2 vezes
+                            InsertionSort(V,n);
+                            printf("aperte 1 para ver o vetor ordenado\n");
+                            scanf("%d", &k);
+                            while(getchar() != '\n');  //evitar erro do menu em loop
+                            if(k == 1)
+                            {
+                                 for(k = 0; k<n; k++)
+                                 {
+                                    if(k == (n-1)) //quando for o ultimo numero coloca ponto e nao virgula1
+                                    {
+                                        printf("%d.", V[k]);
+                                        
+                                    }
+                                    else
+                                    {
+                                        printf("%d, ", V[k]);
+                                    }
+                                    
+                                 }
+                            }
                              Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
 
@@ -146,6 +167,27 @@ int main()
                             break;
                         case 4:
                             //codigomerge
+                             k = 0; //evitar erro se ordenar 2 vezes
+                            MergeSort (V, 0, n - 1);
+                           printf("aperte 1 para ver o vetor ordenado\n");
+                           scanf("%d", &k);
+                            while(getchar() != '\n');  //evitar erro do menu em loop
+                            if(k == 1)
+                            {
+                                 for(k = 0; k<n; k++)
+                                 {
+                                    if(k == (n-1)) //quando for o ultimo numero coloca ponto e nao virgula1
+                                    {
+                                        printf("%d.", V[k]);
+                                        
+                                    }
+                                    else
+                                    {
+                                        printf("%d, ", V[k]);
+                                    }
+                                    
+                                 }
+                            }
                             Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
                             break;
@@ -162,7 +204,7 @@ int main()
                     }
                 }
                 Numero = 0; //resolver o erro do menu em loop;
-                             Numerosub = 0; 
+                Numerosub = 0; 
                 break;
 
             case 4:
@@ -188,3 +230,4 @@ int main()
     } while (Numero != 5);
      free(V); 
 }
+
