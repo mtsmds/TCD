@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <windows.h>
 #include "funcoes.h"
+#include <math.h>
+
 
 int buscabin (int buscado, int *vet, int tam) // recebe o numero buscado, vetor e o seu tamanho
 {
-
-    if(ordenado(vet, tam) == 0)
+    if(ordenado(vet, tam) == 1)
     {
         printf("Ordenado!\n\n");
         int ver = 0;
@@ -13,59 +14,49 @@ int buscabin (int buscado, int *vet, int tam) // recebe o numero buscado, vetor 
         int fim = (tam - 1); // sem o -1 passa do tamanho do vetor 
         int meio;
 
-    
         while(ini <= fim)
         {
-        meio = (fim + ini) / 2;
-        if(vet[meio] == buscado)
-        {
-            return meio;
-            
-            // printf("elemento %d encontrado na posicao: %d", buscado, meio); // return meio?
+            meio = (fim + ini) / 2;
+            if(vet[meio] == buscado)
+            {
+                ver++; // verifica se encontrou o elemento
+                return meio;
+                break;
+            }
+            else if(vet[meio] > buscado)
+            {
+                fim = meio - 1; 
+            }
+            else if(vet[meio] < buscado)
+            {
+                ini = meio + 1;
+            }
+        }
 
-            ver++; // verifica se encontrou o elemento
-            break;
-        }
-        else if(vet[meio] > buscado)
+        if(ver == 0) // nao encontrou o elemento
         {
-            fim = meio - 1; 
-        }
-        else if(vet[meio] < buscado)
-        {
-            ini = meio + 1;
+            return -1; //return -1 no menu
         }
     }
-
-   if(ver == 0) // nao encontrou o elemento
-   {
-   return 1; //return -1 no menu
-   }
-
+    else
+    {
+        return -1;
     }
-
 }
 
 
 
 
 
-    int ordenado (int *vet, int tam) // recebe vetor e o seu tamanho
+    int ordenado(int *vet, int tam) //recebe vetor e tamanho
 {
-    int i = 0, cont = 0;
-    
-    
-    while (vet[i] <= tam) //laço ate encontrar o fim do vetor
-    {
-        if(vet[i] > vet[i+1]) //verifica se esta ordenado
-        {
-           return 1; // retorna erro na ordenação
-           break;
-        }
-    
-     return 0;
-      i++; // para continuar o laço
-      cont++;
+    int n;
+    n = tam - 1; //para n passar do tamanho do vetor
+    for (int i = 0; i < n; i++) { 
+        if (vet[i] > vet[i+1])
+            return 0;  // não ordenado
     }
+    return 1;  // ordenado
 }
 
 
@@ -98,7 +89,7 @@ int* bubblesort(int *vet, int n)
         p[i] = vet[i]; // atribui os valos do vetor ordenado para o ponteiro
     }
    
-   return p;   
+   return p; //retorna o endereço do vetor ordenado
 }
 
 
@@ -222,5 +213,4 @@ void InsertionSort (int *V, int N)
         }
     }
 }
-
 
