@@ -17,11 +17,16 @@ int main()
 
     int tam = 100;
     int *V = NULL; 
+    int * L = NULL;
     FILE *file = NULL; //arquivo de dados
     int i = 0;
+    int m = 0;
+    int o = 0;
     int Numero, Numerosub, n, acaofeita = 0, algexe = 0; //para o funconamento do menu
-    int buscado, buscabinres; // para funcionamento da busca binaria
+    int buscado, buscabinres = -1; // para funcionamento da busca binaria // EDITADO: inicializa buscabinres para evitar leitura de lixo
     int k, *ord; //funcionamento bubble e selection sort 
+    int buscaseqres; //funcionamento busca sequencial
+    int *quickres = NULL; //funcionamento do quicksort
 
     do {
         printf("\n1. Carregar arquivo de dados\n2. Buscar elemento\n3. Ordenar dados\n4. Gerar relatorio (Log)\n5. Sair\n");
@@ -77,7 +82,7 @@ int main()
                             {
                                 QueryPerformanceCounter(&inicio); // inicia contagem
                                 
-                                //funcao de buscalinear aqui
+                               buscaseqres = buscalinear(buscado, V, n);
 
 
                                 QueryPerformanceCounter(&fim); // para contagem
@@ -87,9 +92,9 @@ int main()
                             media = soma / 100.0; //  media das 100 execuções
                            
                             
-                            if(buscabinres != -1)
+                            if(buscaseqres != -1) // -1 = elemento nao encontrado
                             {
-                                printf("elemento %d encontrado na posicao: %d", buscado, buscabinres);
+                                printf("elemento %d encontrado na posicao: %d", buscado, buscaseqres);
                             }
                             else
                             {
@@ -101,7 +106,7 @@ int main()
                             printf("Erro\n");
                         }else
                         {
-                            fprintf(log, "tempo de execução na busca sequencial: %.10lf ms\n", media); // salva a media no log
+                            fprintf(log, "tempo de execucao na busca sequencial: %.10lf ms\n", media); // salva a media no log
                              fclose(log);
                         }
 
@@ -110,6 +115,7 @@ int main()
                             //
                             Numero = 0; //resolver o erro do menu em loop;
                             Numerosub = 0;
+                            algexe++;
 
                             break;
                         }
@@ -147,7 +153,7 @@ int main()
                             }
                             else
                             {
-                            fprintf(log, "tempo de execução na busca binária: %.10lf ms\n", media); // salva a media no log
+                            fprintf(log, "tempo de execucao na busca binaria: %.10lf ms\n", media); // salva a media no log
                              fclose(log);
                         }
                            
@@ -189,7 +195,7 @@ int main()
                             printf("Erro ao abrir log\n");
                         }else
                         {
-                            fprintf(log, "tempo de execução insertionsort: %.10lf ms\n", media); // salva a media no log
+                            fprintf(log, "tempo de execucao insertionsort: %.10lf ms\n", media); // salva a media no log
                              fclose(log);
                         }
                            
@@ -214,7 +220,7 @@ int main()
                             }
                              Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
-
+                            algexe++;
                             break;
                         case 2:
                             // codigo bubble
@@ -227,7 +233,7 @@ int main()
                                 QueryPerformanceCounter(&inicio); // inicia contagem
                                 ord = bubblesort(V, n);
                                 QueryPerformanceCounter(&fim); // para contagem
-                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; // calcula tempo da iteracao
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; 
                                 soma += elapsedtime; // acumula o tempo de cada execução
                             }
                             media = soma / 100.0; // calcula a media das 100 execuções
@@ -238,7 +244,7 @@ int main()
                             printf("Erro ao abrir log\n");
                         }else
                         {
-                            fprintf(log, "tempo de execução bubblesort: %.10lf ms\n", media); // salva a media no log
+                            fprintf(log, "tempo de execucao bubblesort: %.10lf ms\n", media); // salva a media no log
                              fclose(log);
                         }
                            
@@ -260,7 +266,8 @@ int main()
                             }
                           
                             Numero = 0; //resolver o erro do menu em loop;
-                             Numerosub = 0; 
+                             Numerosub = 0;
+                             algexe++; 
                             break;
                         case 3:
                             //codigo selection
@@ -285,14 +292,14 @@ int main()
                             printf("Erro ao abrir log\n");
                         }else
                         {
-                            fprintf(log, "tempo de execução selectionsort: %.10lf ms\n", media); // salva a media no log
+                            fprintf(log, "tempo de execucao selectionsort: %.10lf ms\n", media); // salva a media no log
                              fclose(log);
                         }
                            
-                           printf("aperte 1 para ver o vetor ordenado\n");
+                           printf("aperte 1 para ver o vetor ordenado ou 2 para voltar ao menu\n");
                           
                            scanf("%d", &k);
-                            while(getchar() != '\n');
+                            
                             if(k == 1)
                             {
                                  for(k = 0; k<n; k++)
@@ -309,6 +316,7 @@ int main()
                                 }
                             Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
+                             algexe++;
                             break;
                         case 4:
                             //codigomerge
@@ -334,14 +342,14 @@ int main()
                             printf("Erro ao abrir log\n");
                         }else
                         {
-                            fprintf(log, "tempo de execução mergesort : %.10lf ms\n", media); 
+                            fprintf(log, "tempo de execucao mergesort : %.10lf ms\n", media); 
                              fclose(log);
                         }
                            
-                           printf("aperte 1 para ver o vetor ordenado\n");
-                          // mostra a media na tela
+                           printf("aperte 1 para ver o vetor ordenado ou 2 para voltar ao menu\n");
+                        
                            scanf("%d", &k);
-                            while(getchar() != '\n');  //evitar erro do menu em loop
+                          
                             if(k == 1)
                             {
                                  for(k = 0; k<n; k++)
@@ -360,21 +368,20 @@ int main()
                             }
                             Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
+                             algexe++;
                             break;
                         case 5:
                             //codigo quick
-
+                            {  
+                            
                             soma = 0.0; // zera a soma antes de repetir
                             QueryPerformanceFrequency(&frequency); 
-                            for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
+                            for(l = 0; l < 100; l++) // repete 100 vezes pra tirar a media
                             {
-                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                QueryPerformanceCounter(&inicio); 
                                 
-                                 //funcao ordenação aqui
-                                 // 
-                                 //
-                                 //
-                                QueryPerformanceCounter(&fim); // para contagem
+                                 quickres = quicksort(V, n);
+                                QueryPerformanceCounter(&fim); 
                                 elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart;
                                 soma += elapsedtime; // acumula o tempo de cada execução
                             }
@@ -386,26 +393,47 @@ int main()
                             printf("Erro ao abrir log\n");
                         }else
                         {
-                            fprintf(log, "tempo de execução quicksort: %.10lf ms\n", media); // salva a media no log
+                            fprintf(log, "tempo de execucao quicksort: %.10lf ms\n", media); // salva a media no log
                              fclose(log);
                         }
+                            printf("aperte 1 para ver o vetor ordenado ou 2 para voltar ao menu\n");
+                        
+                           scanf("%d", &k);
+                          
+                            if(k == 1)
+                            {
+                                 for(k = 0; k<n; k++)
+                                 {
+                                    if(k == (n-1)) //quando for o ultimo numero coloca ponto e nao virgula
+                                    {
+                                        printf("%d.", V[k]);
+                                        
+                                    }
+                                    else
+                                    {
+                                        printf("%d, ", V[k]);
+                                    }
+                                    
+                                 }
+                            }
 
                             Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
+                             algexe++;
                             break;
+                            } 
                         case 6: 
                             //codigo extra
 
-                            soma = 0.0; // zera a soma antes de repetir
+                            soma = 0.0; // limpa a soma antes de repetir
                             QueryPerformanceFrequency(&frequency); 
                             for(l = 0; l < 100; l++) // repete 100 vezes para tirar a media
                             {
-                                QueryPerformanceCounter(&inicio); // inicia contagem
+                                QueryPerformanceCounter(&inicio); 
                                 
-                                 //funcao ordenação aqui
-                                 //
-                                 //
-                                QueryPerformanceCounter(&fim); // para contagem
+                                 timSort(V, n);
+
+                                QueryPerformanceCounter(&fim); 
                                 elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; 
                                 soma += elapsedtime; // soma os tempos
                             }
@@ -417,12 +445,33 @@ int main()
                             printf("Erro ao abrir log\n");
                         }else
                         {
-                            fprintf(log, "tempo de execução do codigo extra: %.10lf ms\n", media); // salva a media no log
+                            fprintf(log, "tempo de execucao do codigo extra: %.10lf ms\n", media); // salva a media no log
                              fclose(log);
                         }
-
+                            printf("aperte 1 para ver o vetor ordenado ou 2 para voltar ao menu\n");
+                        
+                           scanf("%d", &k);
+                          
+                            if(k == 1)
+                            {
+                                 for(k = 0; k<n; k++)
+                                 {
+                                    if(k == (n-1)) //quando for o ultimo numero coloca ponto e nao virgula1
+                                    {
+                                        printf("%d.", V[k]);
+                                        
+                                    }
+                                    else
+                                    {
+                                        printf("%d, ", V[k]);
+                                    }
+                                    
+                                 }
+                            }
+                        
                             Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
+                             algexe++;
                             break;
                     }
                 }
@@ -431,10 +480,28 @@ int main()
                 break;
 
             case 4:
-                if (algexe != 1) {
-                    printf("Carregue o arquivo primeiro! (opcao 1)\n");
+                if (algexe < 1) { 
+                    printf("Execute um algoritmo primeiro! (opcao2 ou 3)\n"); 
                 } else {
                     //LOG
+                   
+
+                    file = fopen("log.txt", "r");  // abre o arquivo
+                    if (file == NULL) {
+                        printf("Arquivo vazio\n");
+                        break;
+                    }
+
+                    char linha[100]; // armazena a linha lida
+                    while (fgets(linha, sizeof(linha), file) != NULL) // le linha por linha ate o fim
+                    {
+                         printf("%s", linha); // %s de string
+                    }
+
+            
+                  
+
+                    fclose(file); // fecha arquivo
                 }
                 Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
