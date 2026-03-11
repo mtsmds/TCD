@@ -69,9 +69,7 @@ int main()
                     {
                         case 1:
                         {
-                            //busca sequencial aqui
-                            //
-                            //
+                            //busca sequencial
 
                             printf("qual o numero a ser buscado?  ");
                             scanf(" %d", &buscado);
@@ -110,9 +108,6 @@ int main()
                              fclose(log);
                         }
 
-                            //
-                            //
-                            //
                             Numero = 0; //resolver o erro do menu em loop;
                             Numerosub = 0;
                             algexe++;
@@ -248,7 +243,7 @@ int main()
                              fclose(log);
                         }
                            
-                           printf("aperte 1 para ver o vetor ordenado\n");
+                           printf("aperte 1 para ver o vetor ordenado, 2 para voltar ao menu\n");
                            scanf("%d", &k);
                             if(k == 1)
                             {
