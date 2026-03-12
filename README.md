@@ -9,7 +9,8 @@ Grupo:  José Otávio
 
 compilação de código:  
 		 copie e cole no terminal: "gcc main.c  funcoes.c -o  main.exe" (compilação)  
-		 em seguida copie e cole "./main.exe" (execução)  
+		 em seguida copie e cole "./main.exe" (execução) 
+		 renomeie o arquivo que será usado para testes como: "dados".txt e coloque na mesma pasta do main.exe
 
 
 Relatório de tempos:  
