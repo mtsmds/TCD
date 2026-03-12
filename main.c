@@ -15,9 +15,9 @@ int main()
     int l; // 
 
 
-    int tam = 100;
-    int *V = NULL; 
-    int * L = NULL;
+    int tam = 100; //tamanho inicial do vetor
+    int *V = NULL; //vetor que vai receber o arquivo
+    int * L = NULL; //funcionamento da busca sequencial
     FILE *file = NULL; //arquivo de dados
     int i = 0;
     int m = 0;
@@ -36,7 +36,7 @@ int main()
         switch(Numero)
         {
             case 1:
-            i = 0; //parar de somar os valores da execução anterior
+            i = 0; //zera os valores da execucao anterior
             
                 file = fopen("dados.txt", "r");  // abre o arquivo
                 if (file == NULL) {
@@ -52,20 +52,21 @@ int main()
                     }
                 }
                 fclose(file);  //fecha o arquivo
-                acaofeita = 1;
+                acaofeita = 1; 
                 printf("%d numeros lidos\n", i);
                 n = i;
                 Numero = 0; //resolver o erro do menu em loop;
                 break;
 
             case 2:
-                if (acaofeita != 1) {
+                if (acaofeita != 1) //confirmar que passou o arquivo pro vetor
+                    {
                     printf("Carregue o arquivo primeiro! (opcao 1)\n");
                 } else {
                     printf("\n01.Linear \n02.Binária (Apenas se estiver ordenado)\n");
                     scanf(" %d", &Numerosub);
                
-                    switch(Numerosub)
+                    switch(Numerosub) //submenu
                     {
                         case 1:
                         {
@@ -80,7 +81,7 @@ int main()
                             {
                                 QueryPerformanceCounter(&inicio); // inicia contagem
                                 
-                               buscaseqres = buscalinear(buscado, V, n);
+                               buscaseqres = buscalinear(buscado, V, n); //funcao da busca sequencial
 
 
                                 QueryPerformanceCounter(&fim); // para contagem
@@ -105,12 +106,12 @@ int main()
                         }else
                         {
                             fprintf(log, "tempo de execucao na busca sequencial: %.10lf ms\n", media); // salva a media no log
-                             fclose(log);
+                             fclose(log);//fecha arquivo
                         }
 
                             Numero = 0; //resolver o erro do menu em loop;
                             Numerosub = 0;
-                            algexe++;
+                            algexe++; //concluiu o algoritmo
 
                             break;
                         }
@@ -160,7 +161,7 @@ int main()
             break;
 
             case 3:
-                if (acaofeita != 1) {
+                if (acaofeita != 1) { //confere que carregou o arquivo no vetor
                     printf("Carregue o arquivo primeiro! (opcao 1)\n");
                 } else {
                     printf("\n 01.Insert.\n02.Bubble\n03.Selection\n04.Merge\n05.Quick\n06.EXTRA\n");
@@ -219,7 +220,7 @@ int main()
                             }
                              Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0; 
-                            algexe++;
+                            algexe++;//concluiu o algoritmo
                             break;
                         case 2:
                             // codigo bubble
@@ -247,7 +248,7 @@ int main()
                              fclose(log);
                         }
                            
-                       printf("aperte 1 para ver o vetor ordenado, 2 para voltar ao menu, 3 para salvar o vetor ordenado em um arquivo\n");
+                           printf("aperte 1 para ver o vetor ordenado, 2 para voltar ao menu\n");
                            scanf("%d", &k);
                              if(k == 1)
                             {
@@ -272,7 +273,7 @@ int main()
                           
                             Numero = 0; //resolver o erro do menu em loop;
                              Numerosub = 0;
-                             algexe++; 
+                             algexe++; //concluiu o algoritmo
                             break;
                         case 3:
                             //codigo selection
@@ -457,7 +458,7 @@ int main()
                                  timSort(V, n);
 
                                 QueryPerformanceCounter(&fim); 
-                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; 
+                                elapsedtime = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequency.QuadPart; //tempo para executar o codigo
                                 soma += elapsedtime; // soma os tempos
                             }
                             media = soma / 100.0; //  media das 100 execuções
