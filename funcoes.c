@@ -6,14 +6,17 @@
 int buscalinear(int buscado, int *v, int n)
 {
     int i;
-    int pos;
+    int cont = 0;
     for(i = 0; i< (n-1); i++)
     {
         if(buscado == v[i])
         {
-            return i;
+            return i; 
         }
-    }
+    }    
+    return -1; //nao encontrou o numero
+    
+  
 }
 int buscabin (int buscado, int *vet, int tam) // recebe o numero buscado, vetor e o seu tamanho
 {
@@ -31,7 +34,7 @@ int buscabin (int buscado, int *vet, int tam) // recebe o numero buscado, vetor 
             {
                 ver++; // verifica se encontrou o elemento
                 return meio;
-                break;
+                break; 
             }
             else if(vet[meio] > buscado)
             {
@@ -54,11 +57,7 @@ int buscabin (int buscado, int *vet, int tam) // recebe o numero buscado, vetor 
     }
 }
 
-
-
-
-
-    int ordenado(int *vet, int tam) //recebe vetor e tamanho
+int ordenado(int *vet, int tam) //recebe vetor e tamanho
 {
     int n;
     n = tam - 1; //para n passar do tamanho do vetor
@@ -69,12 +68,8 @@ int buscabin (int buscado, int *vet, int tam) // recebe o numero buscado, vetor 
     return 1;  // ordenado
 }
 
-
-
-
 int* bubblesort(int *vet, int n)
 {
-
     int i, j, key;
     int *p;
 
@@ -91,8 +86,7 @@ int* bubblesort(int *vet, int n)
         }
     }
 
-   p = (int*) malloc(n*sizeof(int)); //liberar memoria depois (free(ponteiro do resultado))
-    
+   p = (int*) malloc(n*sizeof(int)); 
 
     for(i = 0; i<n; i++)
     {
@@ -102,11 +96,8 @@ int* bubblesort(int *vet, int n)
    return p; //retorna o endereço do vetor ordenado
 }
 
-
-
 int* selectionsort(int *vet, int n)
 {
-
     int i, j, key, min;
     int *p;
 
@@ -119,15 +110,14 @@ int* selectionsort(int *vet, int n)
              {
                 min = j;
              }
-           
         }
           key = vet[min]; //
                  vet[min] = vet[i]; // troca
                  vet[i] = key; //
     }
 
+
    p = (int*) malloc(n*sizeof(int)); //liberar memoria depois (free(ponteiro do resultado))
-    
 
     for(i = 0; i<n; i++)
     {
@@ -136,7 +126,6 @@ int* selectionsort(int *vet, int n)
    
    return p;   
 }
-
 
 void merge (int *V, int inicio, int meio, int fim)
 {
@@ -149,7 +138,7 @@ void merge (int *V, int inicio, int meio, int fim)
 
     if (temp != NULL)
     {
-        //Vai combinar o odernado
+        // combina os dois sub-vetores ordenados
         for (int i = 0; i < tamanho; i++)
         {
             if (p1 <= meio && p2 <= fim) //A condição é: Se ainda o fim está zerado vai combinar
@@ -188,7 +177,7 @@ void MergeSort (int *V, int inicio, int fim)
 
     if (inicio < fim)
     {
-        meio = floor(inicio + fim)/2;
+        meio = floor(inicio + fim)/2; 
         //chama a própia função
         MergeSort (V, inicio, meio); //primeira metade
         MergeSort (V, meio + 1, fim); //segunda metade
@@ -224,67 +213,46 @@ void InsertionSort (int *V, int N)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 ///////////////////////
-
-
 
 void troca(int *a, int *b) //parte do quicksort
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+    int temp = *a;  // 
+    *a = *b;        //trocas
+    *b = temp;      // 
 }
 
 int particao(int *v, int ini, int fim) //parte do quicksort
 {
-    int pivo = v[fim];
-    int i = ini - 1;
+    int pivo = v[fim]; // escolhe o ultimo elemento como pivo 
+    int i = ini - 1;   // define i como ultimo elemento menor que o pivo
     for (int j = ini; j < fim; j++) {
-        if (v[j] <= pivo) {
+        if (v[j] <= pivo) { // se o elemento atual for <= ao pivo move para a esquerda 
             i++;
-            troca(&v[i], &v[j]);
+            troca(&v[i], &v[j]); // coloca o elemento menor na posicao correta 
         }
     }
-    troca(&v[i + 1], &v[fim]);
-    return i + 1;
+    troca(&v[i + 1], &v[fim]); // coloca o pivo na posicao correta entre menores e maiores 
+    return i + 1; // retorna o indice do pivo 
 }
 
-
-void quicksort_res(int *v, int ini, int fim)//parte do quicksort
- {
-    if (ini < fim) {
-        int pi = particao(v, ini, fim);
-        quicksort_res(v, ini, pi - 1);
-        quicksort_res(v, pi + 1, fim);
+void quicksort_res(int *v, int ini, int fim) //parte do quicksort
+{
+    if (ini < fim) //so para quando acaba os elementos para ordenar
+    {
+        int pi = particao(v, ini, fim); // divide o vetor e retorna o pivo
+        quicksort_res(v, ini, pi - 1); // ordena a metade esquerda
+        quicksort_res(v, pi + 1, fim); // ordena a metade direita 
     }
 }
 
-
-int *quicksort(int *v, int n)//parte do quicksort para retornar ponteiro
- {
+int *quicksort(int *v, int n) //parte do quicksort para retornar ponteiro
+{
     if (v == NULL || n <= 0) return NULL;
     quicksort_res(v, 0, n - 1);  // n-1 para nao pegar lixo do vetor
     return v;
 }
 
-
-
-
-
-
-
-
-/* ================= TIM SORT ================= */
 void timMerge(int v[], int l, int m, int r) {
     int k = 0;
     int tamanho = r - l + 1; // tamanho do trecho a mesclar
@@ -304,27 +272,28 @@ void timMerge(int v[], int l, int m, int r) {
         else
             temp[k++] = v[j++];
     }
-    while (i <= m)
-        temp[k++] = v[i++];
-    while (j <= r)
-        temp[k++] = v[j++];
-    for (int x = 0; x < k; x++)
-        v[l + x] = temp[x];
+    while (i <= m)//
+        temp[k++] = v[i++];// juntando todos os valores
+    while (j <= r)//
+        temp[k++] = v[j++];//
+    for (int x = 0; x < k; x++)//
+        v[l + x] = temp[x];//
 
     free(temp); // libera memoria apos uso
 }
 
 void timSort(int v[], int n) {
-    int RUN = 32; // tamanho do bloco
-
+    int tam;
+    int i;
+    int bloco = 32; // tamanho escolhido como 32 pois é eficiente tanto para o insertion sort quanto para o merger sort
     // ordena blocos pequenos com InsertionSort ja pronto
-    for (int i = 0; i < n; i += RUN) {
-        int tam = (i + RUN < n) ? RUN : n - i; // evita passar do tamanho do vetor
+    for ( i = 0; i < n; i += bloco) {
+        tam = (i + bloco < n) ? bloco : n - i; // o ''?'' é um if e ":" é o else
         InsertionSort(v + i, tam); // usa InsertionSort ja existente
     }
 
-    // mescla os blocos
-    for (int size = RUN; size < n; size *= 2) {
+    // junta os blocos, dobrando o tamanho a cada passagem ate cobrir o vetor 
+    for (int size = bloco; size < n; size *= 2) { // size *= 2 dobra o bloco 
         for (int l = 0; l < n; l += 2 * size) {
             int m = l + size - 1;
             int r = (l + 2 * size - 1 < n - 1) ? l + 2 * size - 1 : n - 1; // evita passar do vetor
@@ -334,12 +303,10 @@ void timSort(int v[], int n) {
     }
 }
 
-
-
 void salvarvetor(int *v, int n) 
 {
-    FILE *f = fopen("ordenado", "w"); // cria arquivo
-    if (f == NULL) //erro na criacaod e arquivo
+    FILE *f = fopen("ordenado.txt", "w"); // cria arquivo  
+    if (f == NULL) //erro na criacao de arquivo
     {
         printf("Erro ao criar o arquivo.\n");
         return;
